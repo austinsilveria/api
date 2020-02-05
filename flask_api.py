@@ -22,6 +22,21 @@ CONFIG_FILE_PATH = 'config.json'
 app = Flask(__name__)
 CORS(app)
 
+@app.route("new_data/json_dump", methods=["POST"])
+def hacky_json_dump():
+    request_body = request.get_json()
+
+    current_time = "datetime.now??"
+
+    filename = "json_dump_" + current_time
+
+    with open(filename, "w") as json_file:
+        # or is it json.dumps??
+        json.dump(request_body, json_file)
+
+    return jsonify({'you sent': request_body})
+
+
 
 @app.route('/', methods=['GET', 'POST'])
 def hello():
